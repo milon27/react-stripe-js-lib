@@ -58,6 +58,48 @@ export const PayButtonComp = () => {
 ```
 3. backend api should look like this
 
+```ts
+import express from 'express'
+import Stripe from 'stripe';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config()
+const stripe = new Stripe(`${process.env.STRIPE_SKEY}`, {
+    apiVersion: '2020-08-27',
+});
+const app = express()
+app.use(cors({ origin: true }))
+app.use(express.json());
+
+
+app.get('/', (req, res) => {
+    res.send("okk")
+})
+app.post("/create-payment-intent", async (req, res) => {
+    const amount = req.body.amount
+    console.log(amount);
+
+    // Create a PaymentIntent with the order amount and currency
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: 100 * amount,//amount usd
+        currency: "usd",
+        // payment_method: "card"
+        automatic_payment_methods: {
+            enabled: true
+        }
+    });
+
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+    });
+});
+
+
+const port = process.env.PORT || 2828
+app.listen(port, () => console.log("running on app:" + port))
+
+```
 
 
 
