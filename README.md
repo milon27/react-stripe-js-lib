@@ -17,7 +17,7 @@ import 'react-stripe-js/dist/style.css';
 2. use
 
 ```tsx
-import React, { useState } from 'react';
+import React, { useState,Suspense } from 'react';
 import { PayNow, loadStripe } from 'react-stripe-js';
 
 export const PayButtonComp = () => {
@@ -36,7 +36,7 @@ export const PayButtonComp = () => {
     }
   }
 
-  return <>
+  return <Suspense fallback={<div>Loading...</div>}>
     <PayNow
       title='Click To Pay'
       successMessage='payment done,creating order please wait....'
@@ -51,7 +51,7 @@ export const PayButtonComp = () => {
         console.log("wow, payment done....store the order info into db now.");
       }}
     />
-  </>
+  <Suspense/>
 }
 
 
