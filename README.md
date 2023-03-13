@@ -11,7 +11,7 @@ npm install react-stripe-js
 
 ![screenshot](screenshot.png)
 
-### How to use
+## How to use
 
 1. import css in **index.js/ts** or **app.jsx or app.tsx**.
 
@@ -29,8 +29,8 @@ export const PayButtonComp = () => {
   const [clientSecret, setClientSecret] = useState<string>("");
 
   const createOrderAndGetPaymentIntent = (amount: number) => {
+    // in this function we will store the order info and get a payment intent back from server.
     if (!clientSecret) {
-      // Create PaymentIntent as soon as the page loads
       const orderInfo={
         amount:amount,
         receiptEmail: "immilon27@gmail.com",
@@ -57,14 +57,14 @@ export const PayButtonComp = () => {
         createOrderAndGetPaymentIntent(55)
       }}
       onPaymentSuccess={() => {
-        console.log("wow, payment done. the webhook will be called so update order info into db now make the payment-status pending to paid.");
+        console.log("wow, payment done. the webhook will be called, so we will update order info in webhook and make the payment-status pending to paid.");
       }}
     />
 }
 
 ```
 
-##### backend api should look like this with webhook
+#### backend api should look like this with webhook
 
 ```ts
 import express from 'express'
@@ -204,15 +204,24 @@ app.listen(port, () => console.log("running on app:" + port))
 
 ```
 
-##### how to add your webhook in stripe
+#### how to add your webhook in stripe
 > setp-1 (goto developers and click on webhook then click on add endpoint)
 
 ![webhook](webhook.png)
 > setp-2 (put the endpoint url and select "payment_intent.succeeded" this event.)
 
 ![webhook2](webhook2.png)
+
+
+
+
 ___
 ___
+
+
+
+
+
 #### use without webhook - (not recomended)
 
 ```tsx
@@ -226,7 +235,6 @@ export const PayButtonComp = () => {
 
   const createPaymentIntent = (amount: number) => {
     if (!clientSecret) {
-      // Create PaymentIntent as soon as the page loads
       fetch("http://localhost:2727/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
