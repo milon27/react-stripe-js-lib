@@ -9,7 +9,7 @@ const meta: Meta = {
 export default meta;
 
 export const PayButtonComp = () => {
-  const stripe = loadStripe("pk_test_51KFIbJGEf5WGtFgK16eTffksSKo1VGq25suahY5Xr6JCPvz9xdosjLSCJWhGisj2EWRQoCp16GGQPdhVuKNuVMRu00PNWqxHCe")
+  const stripe = loadStripe("pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
   const [clientSecret, setClientSecret] = useState<string>("");
 
